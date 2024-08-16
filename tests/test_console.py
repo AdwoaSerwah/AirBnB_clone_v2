@@ -15,8 +15,9 @@ import unittest
 from unittest.mock import patch
 import io
 
+
 class TestHBNBCommand(unittest.TestCase):
-    
+    """"""
     def test_prompt(self):
         """Test that the prompt is correct in interactive mode."""
         with patch('sys.__stdin__.isatty', return_value=True):
@@ -76,6 +77,6 @@ class TestHBNBCommand(unittest.TestCase):
             console.emptyline()
             self.assertEqual(mock_stdout.getvalue(), "")
 
+
 if __name__ == "__main__":
     unittest.main()
-
