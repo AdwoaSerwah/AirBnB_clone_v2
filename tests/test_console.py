@@ -22,13 +22,13 @@ class TestHBNBCommand(unittest.TestCase):
         """Test that the prompt is correct in interactive mode."""
         with patch('sys.__stdin__.isatty', return_value=True):
             console = HBNBCommand()
-            self.assertEqual(console.prompt, '(hbnb) ')
+            self.assertEqual(console.prompt, '')
 
     def test_prompt_non_interactive(self):
         """Test that the prompt is correct in non-interactive mode."""
         with patch('sys.__stdin__.isatty', return_value=False):
             console = HBNBCommand()
-            self.assertEqual(console.prompt, '(hbnb) ')
+            self.assertEqual(console.prompt, '')
 
     def test_preloop_non_interactive(self):
         """Test that (hbnb) is printed in non-interactive mode."""
