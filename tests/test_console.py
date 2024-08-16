@@ -77,6 +77,44 @@ class TestHBNBCommand(unittest.TestCase):
             console.emptyline()
             self.assertEqual(mock_stdout.getvalue(), "")
 
+    def setUp(self):
+        """Clear storage before each test"""
+        storage._FileStorage__objects = {}
+
+    def test_create_with_params(self):
+        """Test creating an object with parameters"""
+        command = HBNBCommand()
+        with patch('sys.stdout', new=io.StringIO()) as mock_stdout:
+            command.onecmd('create State name="California"')
+            state_id = mock_stdout.getvalue().strip()
+            self.assertIn("State." + state_id, storage.all())
+
+            state = storage.all()["State." + state_id]
+            self.assertEqual(state.name, "California")
+
+    def test_create_with_multiple_params(self):
+        """Test creating an object with multiple parameters"""
+        command = HBNBCommand()
+        with patch('sys.stdout', new=io.StringIO()) as mock_stdout:
+            command.onecmd('create Place city_id="0001" user_id="0001" '
+                           'name="My_little_house" number_rooms=4 '
+                           'number_bathrooms=2 max_guest=10 '
+                           'price_by_night=300 latitude=37.773972 '
+                           'longitude=-122.431297')
+            place_id = mock_stdout.getvalue().strip()
+            self.assertIn("Place." + place_id, storage.all())
+
+            place = storage.all()["Place." + place_id]
+            self.assertEqual(place.city_id, "0001")
+            self.assertEqual(place.user_id, "0001")
+            self.assertEqual(place.name, "My little house")
+            self.assertEqual(place.number_rooms, 4)
+            self.assertEqual(place.number_bathrooms, 2)
+            self.assertEqual(place.max_guest, 10)
+            self.assertEqual(place.price_by_night, 300)
+            self.assertAlmostEqual(place.latitude, 37.773972)
+            self.assertAlmostEqual(place.longitude, -122.431297)
+
 
 if __name__ == "__main__":
     unittest.main()
