@@ -3,7 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from models.city import City
+# from models.city import City
 import os
 import models
 
@@ -14,13 +14,15 @@ class State(BaseModel, Base):
     name = Column(String(128), nullable=False)
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship(
-                'City', backref='state', cascade='all, delete, delete-orphan')
+                'City', back_populates='state',
+                cascade='all, delete, delete-orphan')
     else:
         @property
         def cities(self):
             """Getter attribute cities that returns the list of City instances
             if state_id == current State.id for FileStorage
             """
+            # from models.city import City
             my_list = []
             for city_skk in models.storage.all(City).values():
                 if city_skk.state_id == self.id:
