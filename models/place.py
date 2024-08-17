@@ -23,6 +23,8 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
 
+    user = relationship('User', back_populates='places')
+    cities = relationship('City', back_populates='places')
     """if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship(
                 'Review', backref='place', cascade='all, delete, delete-orphan')
