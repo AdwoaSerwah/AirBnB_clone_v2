@@ -71,7 +71,8 @@ class TestDBStorage(unittest.TestCase):
         """Test reloading the database"""
         self.storage.reload()
         states = self.session.query(State).all()
-        self.assertGreater(len(states), 0)  # Assuming there are states in the database
+        self.assertGreater(len(states), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
