@@ -25,17 +25,19 @@ class Place(BaseModel, Base):
 
     user = relationship('User', back_populates='places')
     cities = relationship('City', back_populates='places')
-    """if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship(
-                'Review', backref='place', cascade='all, delete, delete-orphan')
+                'Review', back_populates='place', cascade='all, delete-orphan')
     else:
         @property
         def reviews(self):
+            """
             Getter attribute reviews returns the list of Review instances
             if place_id == current Place.id for FileStorage
-            
+            """
+            from models.review import Review
             my_list = []
             for review_skk in models.storage.all(Review).values():
                 if review_skk.place_id == self.id:
                     my_list.append(review_skk)
-            return my_list"""
+            return my_list

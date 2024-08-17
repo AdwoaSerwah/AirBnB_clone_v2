@@ -15,14 +15,14 @@ class State(BaseModel, Base):
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship(
                 'City', back_populates='state',
-                cascade='all, delete, delete-orphan')
+                cascade='all, delete-orphan')
     else:
         @property
         def cities(self):
             """Getter attribute cities that returns the list of City instances
             if state_id == current State.id for FileStorage
             """
-            # from models.city import City
+            from models.city import City
             my_list = []
             for city_skk in models.storage.all(City).values():
                 if city_skk.state_id == self.id:
