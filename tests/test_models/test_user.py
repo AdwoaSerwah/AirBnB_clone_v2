@@ -4,6 +4,8 @@ from tests.test_models.test_base_model import test_basemodel
 from models.user import User
 import os
 from models.place import Place
+from models import storage
+from datetime import datetime
 
 
 class test_User(test_basemodel):
@@ -37,3 +39,11 @@ class test_User(test_basemodel):
         if os.getenv('HBNB_TYPE_STORAGE') != 'db':
             new = self.value()
             self.assertEqual(type(new.password), str)
+
+    def test_created_at(self):
+        """ Test the created_at attribute """
+        if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+            new = self.value()
+            self.assertTrue(hasattr(new, 'created_at'))
+            self.assertIsInstance(new.created_at, datetime)
+            self.assertEqual(type(new.created_at), datetime)
