@@ -19,9 +19,7 @@ class Amenity(BaseModel, Base):
                 back_populates='amenities'
                 )
     else:
-        place_id = ""
-        user_id = ""
-        text = ""
+        name = ""
 
     def __init__(self, *args, **kwargs):
         """initializes Review"""

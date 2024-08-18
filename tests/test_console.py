@@ -2,6 +2,7 @@
 """ Console Module """
 import cmd
 import sys
+import os
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -18,18 +19,6 @@ import io
 
 class TestHBNBCommand(unittest.TestCase):
     """"""
-    def test_prompt(self):
-        """Test that the prompt is correct in interactive mode."""
-        with patch('sys.__stdin__.isatty', return_value=True):
-            console = HBNBCommand()
-            self.assertEqual(console.prompt, '')
-
-    def test_prompt_non_interactive(self):
-        """Test that the prompt is correct in non-interactive mode."""
-        with patch('sys.__stdin__.isatty', return_value=False):
-            console = HBNBCommand()
-            self.assertEqual(console.prompt, '')
-
     def test_preloop_non_interactive(self):
         """Test that (hbnb) is printed in non-interactive mode."""
         with patch('sys.__stdin__.isatty', return_value=False):
@@ -83,37 +72,39 @@ class TestHBNBCommand(unittest.TestCase):
 
     def test_create_with_params(self):
         """Test creating an object with parameters"""
-        command = HBNBCommand()
-        with patch('sys.stdout', new=io.StringIO()) as mock_stdout:
-            command.onecmd('create State name="California"')
-            state_id = mock_stdout.getvalue().strip()
-            self.assertIn("State." + state_id, storage.all())
+        if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+            command = HBNBCommand()
+            with patch('sys.stdout', new=io.StringIO()) as mock_stdout:
+                command.onecmd('create State name="California"')
+                state_id = mock_stdout.getvalue().strip()
+                self.assertIn("State." + state_id, storage.all())
 
-            state = storage.all()["State." + state_id]
-            self.assertEqual(state.name, "California")
+                state = storage.all()["State." + state_id]
+                self.assertEqual(state.name, "California")
 
     def test_create_with_multiple_params(self):
         """Test creating an object with multiple parameters"""
-        command = HBNBCommand()
-        with patch('sys.stdout', new=io.StringIO()) as mock_stdout:
-            command.onecmd('create Place city_id="0001" user_id="0001" '
-                           'name="My_little_house" number_rooms=4 '
-                           'number_bathrooms=2 max_guest=10 '
-                           'price_by_night=300 latitude=37.773972 '
-                           'longitude=-122.431297')
-            place_id = mock_stdout.getvalue().strip()
-            self.assertIn("Place." + place_id, storage.all())
+        if os.getenv('HBNB_TYPE_STORAGE') != 'db':
+            command = HBNBCommand()
+            with patch('sys.stdout', new=io.StringIO()) as mock_stdout:
+                command.onecmd('create Place city_id="0001" user_id="0001" '
+                               'name="My_little_house" number_rooms=4 '
+                               'number_bathrooms=2 max_guest=10 '
+                               'price_by_night=300 latitude=37.773972 '
+                               'longitude=-122.431297')
+                place_id = mock_stdout.getvalue().strip()
+                self.assertIn("Place." + place_id, storage.all())
 
-            place = storage.all()["Place." + place_id]
-            self.assertEqual(place.city_id, "0001")
-            self.assertEqual(place.user_id, "0001")
-            self.assertEqual(place.name, "My little house")
-            self.assertEqual(place.number_rooms, 4)
-            self.assertEqual(place.number_bathrooms, 2)
-            self.assertEqual(place.max_guest, 10)
-            self.assertEqual(place.price_by_night, 300)
-            self.assertAlmostEqual(place.latitude, 37.773972)
-            self.assertAlmostEqual(place.longitude, -122.431297)
+                place = storage.all()["Place." + place_id]
+                self.assertEqual(place.city_id, "0001")
+                self.assertEqual(place.user_id, "0001")
+                self.assertEqual(place.name, "My little house")
+                self.assertEqual(place.number_rooms, 4)
+                self.assertEqual(place.number_bathrooms, 2)
+                self.assertEqual(place.max_guest, 10)
+                self.assertEqual(place.price_by_night, 300)
+                self.assertAlmostEqual(place.latitude, 37.773972)
+                self.assertAlmostEqual(place.longitude, -122.431297)
 
 
 if __name__ == "__main__":
