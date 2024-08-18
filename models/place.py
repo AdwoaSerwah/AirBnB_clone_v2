@@ -14,15 +14,15 @@ if os.getenv('HBNB_TYPE_STORAGE') == 'db':
             Base.metadata,
             Column(
                 'place_id', String(60),
-                ForeignKey('places.id', ondelete='CASCADE',
-                    onupdate='CASCADE'),
+                ForeignKey(
+                    'places.id', ondelete='CASCADE', onupdate='CASCADE'),
                 primary_key=True,
                 nullable=False),
             Column(
                 'amenity_id',
                 String(60),
-                ForeignKey('amenities.id', ondelete='CASCADE',
-                    onupdate='CASCADE'),
+                ForeignKey(
+                    'amenities.id', ondelete='CASCADE', onupdate='CASCADE'),
                 primary_key=True,
                 nullable=False)
             )

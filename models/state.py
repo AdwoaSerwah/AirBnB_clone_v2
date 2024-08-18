@@ -5,7 +5,6 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 # from models.city import City
 import os
-# import models.__init__ import 
 
 
 class State(BaseModel, Base):
@@ -18,7 +17,7 @@ class State(BaseModel, Base):
                 'City', back_populates='state',
                 cascade='all, delete-orphan')
     else:
-        name=""
+        name = ""
 
         @property
         def cities(self):
@@ -32,7 +31,7 @@ class State(BaseModel, Base):
                 if city_skk.state_id == self.id:
                     my_list.append(city_skk)
             return my_list
-    
+
     def __init__(self, *args, **kwargs):
         """initialize"""
         super().__init__(*args, **kwargs)
