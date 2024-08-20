@@ -29,27 +29,27 @@ def do_deploy(archive_path):
         new_name = arch_name.split(".")[0]
 
         # Create the directory for the new_name release
-        run('mkdir -p /data/web_static/releases/{}/'.format(new_name))
+        sudo('mkdir -p /data/web_static/releases/{}/'.format(new_name))
 
         # Uncompress the archive to the new_name directory
-        run('tar -xzf /tmp/{} -C /data/web_static/releases/{}/'.format(
+        sudo('tar -xzf /tmp/{} -C /data/web_static/releases/{}/'.format(
             arch_name, new_name))
 
         # Delete the archive from the server
-        run('rm /tmp/{}'.format(arch_name))
+        sudo('rm /tmp/{}'.format(arch_name))
 
         # Move the contents of web_static to the release directory
-        run('mv /data/web_static/releases/{}/web_static/* '
+        sudo('mv /data/web_static/releases/{}/web_static/* '
             '/data/web_static/releases/{}/'.format(new_name, new_name))
 
         # Remove the arch_name web_static directory
-        run('rm -rf /data/web_static/releases/{}/web_static'.format(new_name))
+        sudo('rm -rf /data/web_static/releases/{}/web_static'.format(new_name))
 
         # Remove the arch_name symbolic link
-        run('rm -rf /data/web_static/current')
+        sudo('rm -rf /data/web_static/current')
 
         # Create a new_name symbolic link
-        run('ln -s /data/web_static/releases/{}/ '
+        sudo('ln -s /data/web_static/releases/{}/ '
             '/data/web_static/current'.format(new_name))
 
         print("New version deployed!")
