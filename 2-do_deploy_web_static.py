@@ -24,8 +24,6 @@ def do_deploy(archive_path):
     try:
         result = put(archive_path, '/tmp/')
         # print("Put result:", result.succeeded)
-
-
         arch_name = os.path.basename(archive_path)
         new_name = arch_name.split(".")[0]
         the_path = "/data/web_static/releases/"
