@@ -4,7 +4,7 @@ Fabric script to generate a .tgz archive from the contents
 of the web_static folder.
 """
 
-from fabric.api import local, run, env
+from fabric.api import local, run, env, put
 from datetime import datetime
 import os
 
@@ -18,10 +18,13 @@ def do_deploy(archive_path):
     Distributes an archive to web servers.
     """
     if not os.path.exists(archive_path):
+        print("Path does not exist!")
         return False
 
     try:
-        put(archive_path, '/tmp/')
+        result = put(archive_path, '/tmp/')
+        # print("Put result:", result.succeeded)
+
 
         arch_name = os.path.basename(archive_path)
         new_name = arch_name.split(".")[0]
@@ -34,7 +37,8 @@ def do_deploy(archive_path):
         run('rm -rf /data/web_static/current')
         run('ln -s {}{}/ /data/web_static/current'.format(the_path, new_name))
         return True
-    except Exception:
+    except Exception as e:
+        print("An error occurred:", e)
         return False
 
 
