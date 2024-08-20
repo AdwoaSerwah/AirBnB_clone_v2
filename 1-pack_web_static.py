@@ -8,10 +8,11 @@ from fabric.api import local
 from datetime import datetime
 import os
 
+
 def do_pack():
     """
     Creates a .tgz archive from the contents of the web_static folder.
-    
+
     Returns:
         str: The path to the created archive, or None
     """
@@ -27,7 +28,7 @@ def do_pack():
 
     # Create the .tgz archive
     result = local(f"tar -cvzf {archive_path} web_static", capture=True)
-    
+
     if result.failed:
         return None
     return archive_path
