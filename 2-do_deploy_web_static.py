@@ -21,42 +21,20 @@ def do_deploy(archive_path):
         return False
 
     try:
-        # Upload the archive to /tmp/
         put(archive_path, '/tmp/')
 
-        # Extract the archive filename without extension
         arch_name = os.path.basename(archive_path)
         new_name = arch_name.split(".")[0]
-
-        # Create the directory for the new_name release
-        sudo('mkdir -p /data/web_static/releases/{}/'.format(new_name))
-
-        # Uncompress the archive to the new_name directory
-        sudo('tar -xzf /tmp/{} -C /data/web_static/releases/{}/'.format(
-            arch_name, new_name))
-
-        # Delete the archive from the server
-        sudo('rm /tmp/{}'.format(arch_name))
-
-        # Move the contents of web_static to the release directory
-        sudo('mv /data/web_static/releases/{}/web_static/* '
-            '/data/web_static/releases/{}/'.format(new_name, new_name))
-
-        # Remove the arch_name web_static directory
-        sudo('rm -rf /data/web_static/releases/{}/web_static'.format(new_name))
-
-        # Remove the arch_name symbolic link
-        sudo('rm -rf /data/web_static/current')
-
-        # Create a new_name symbolic link
-        sudo('ln -s /data/web_static/releases/{}/ '
-            '/data/web_static/current'.format(new_name))
-
-        print("New version deployed!")
+        the_path = "/data/web_static/releases/"
+        run('mkdir -p {}{}/'.format(the_path, new_name))
+        run('tar -xzf /tmp/{} -C {}{}/'.format(arch_name, the_path, new_name))
+        run('rm /tmp/{}'.format(arch_name))
+        run('mv {0}{1}/web_static/* {0}{1}/'.format(the_path, new_name))
+        run('rm -rf {}{}/web_static'.format(the_path, new_name))
+        run('rm -rf /data/web_static/current')
+        run('ln -s {}{}/ /data/web_static/current'.format(the_path, new_name))
         return True
-
-    except Exception as e:
-        print("Deployment failed: {}".format(e))
+    except Exception:
         return False
 
 
