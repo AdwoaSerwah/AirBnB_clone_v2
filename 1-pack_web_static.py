@@ -27,7 +27,7 @@ def do_pack():
     archive_path = os.path.join(versions_dir, archive_name)
 
     # Create the .tgz archive
-    result = local(f"tar -cvzf {archive_path} web_static", capture=True)
+    result = local(f"tar -cvzf {archive_path} web_static")
 
     if result.failed:
         return None
