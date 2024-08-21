@@ -71,3 +71,26 @@ def deploy():
         return False
 
     return do_deploy(archive_path)
+
+
+def do_clean(number=0):
+    """Deletes out-of-date archives."""
+    number = int(number)
+
+    if number < 1:
+        number = 1
+
+    # Remove older archives locally
+    archives = sorted(os.listdir('versions'))
+    archives_to_delete = archives[:-number]
+
+    for archive in archives_to_delete:
+        local("rm -f versions/{}".format(archive))
+
+    # Remove older archives on remote servers
+    archives_on_remote = run("ls -1t /data/web_static/releases").split()
+    arch2del_rem = [a for a in archives_on_remote if "web_static_" in a]
+    arch2del_rem = arch2del_rem[number:]
+
+    for archive in arch2del_rem:
+        run("rm -rf /data/web_static/releases/{}".format(archive))
