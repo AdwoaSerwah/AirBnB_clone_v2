@@ -1,11 +1,7 @@
 -- Drop all rows in states and insert new
 USE hbnb_dev_db;
 
-SET FOREIGN_KEY_CHECKS=0;
-
 DELETE FROM `states`;
-
-SET FOREIGN_KEY_CHECKS=1;
 
 INSERT INTO `states` VALUES 
     ('421a55f4-7d82-47d9-b51c-a76916479545','2016-03-25 19:42:40','2016-03-25 19:42:40','stateA'),
