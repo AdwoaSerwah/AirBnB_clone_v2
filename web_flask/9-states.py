@@ -1,12 +1,11 @@
 #!/usr/bin/python3
-""" Starts a Flash Web Application """
+""" This module sorts and prints cities and states"""
 from models import storage
 from models.state import State
-from os import environ
+# from os import environ
 from flask import Flask, render_template
+
 app = Flask(__name__)
-# app.jinja_env.trim_blocks = True
-# app.jinja_env.lstrip_blocks = True
 
 
 @app.teardown_appcontext
@@ -18,29 +17,29 @@ def close_db(error):
 @app.route('/states', strict_slashes=False)
 @app.route('/states/<id>', strict_slashes=False)
 def states_state(id=""):
-    """ displays a HTML page with a list of cities by states """
     states = storage.all(State).values()
     states = sorted(states, key=lambda k: k.name)
-    found = 0
-    state = ""
+    skk_found = 0
+    skk_state = ""
     cities = []
 
     for i in states:
         if id == i.id:
-            state = i
-            found = 1
+            skk_state = i
+            skk_found = 1
             break
-    if found:
-        states = sorted(state.cities, key=lambda k: k.name)
-        state = state.name
 
-    if id and not found:
-        found = 2
+    if skk_found:
+        states = sorted(skk_state.cities, key=lambda x: x.name)
+        skk_state = skk_state.name
+
+    if id and not skk_found:
+        skk_found = 2
 
     return render_template('9-states.html',
-                           state=state,
-                           array=states,
-                           found=found)
+                           state=skk_state,
+                           lists=states,
+                           found=skk_found)
 
 
 if __name__ == "__main__":

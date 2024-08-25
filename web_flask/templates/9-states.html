@@ -8,14 +8,14 @@
       <H1>State: {{ state }}</H1>
       <H3>Cities:</H3>
       <UL>
-              {% for city in array %}
+              {% for city in lists %}
               <LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
               {% endfor %}
       </UL>
       {% elif found == 0 %}
       <H1>States</H1>
       <UL>
-          {% for state in array %}
+          {% for state in lists %}
           <LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
           {% endfor %}
       </UL>
