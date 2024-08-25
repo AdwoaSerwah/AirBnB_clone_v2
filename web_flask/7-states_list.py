@@ -1,27 +1,27 @@
 #!/usr/bin/python3
-""" Starts a Flash Web Application """
+"""
+Flask web application to display all states from the database.
+"""
+from flask import Flask, render_template
 from models import storage
 from models.state import State
-from flask import Flask, render_template
+
 app = Flask(__name__)
-# app.jinja_env.trim_blocks = True
-# app.jinja_env.lstrip_blocks = True
 
 
 @app.teardown_appcontext
-def close_db(error):
-    """ Remove the current SQLAlchemy Session """
+def teardown_db(exception):
+    """Remove the current SQLAlchemy Session."""
     storage.close()
 
 
 @app.route('/states_list', strict_slashes=False)
 def states_list():
-    """ displays a HTML page with a list of states """
+    """Display HTML page with all State objects sorted by name."""
     states = storage.all(State).values()
-    states = sorted(states, key=lambda k: k.name)
-    return render_template('7-states_list.html', states=states)
+    sorted_states = sorted(states, key=lambda x: x.name)
+    return render_template('7-states_list.html', states=sorted_states)
 
 
 if __name__ == "__main__":
-    """ Main Function """
     app.run(host='0.0.0.0', port=5000)
