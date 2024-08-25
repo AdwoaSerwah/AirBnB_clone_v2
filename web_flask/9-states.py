@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Flask web application to display states and cities."""
 
 from flask import Flask, render_template
