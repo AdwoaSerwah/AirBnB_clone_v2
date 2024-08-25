@@ -2,14 +2,13 @@
 <HTML lang="en">
   <HEAD>
     <TITLE>HBNB</TITLE>
+    <META charset="UTF-8">
   </HEAD>
 
   <BODY>
     <H1>States</H1>
-    {% for state in states %}
-        <UL>
-            <LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
-        </UL>
-    {% endfor %}
+    <UL>
+	<LI><B>{{ states }}</B></LI>
+    </UL>
   </BODY>
 </HTML>
