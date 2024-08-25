@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <HTML lang="en">
 <HEAD>
     <TITLE>HBNB</TITLE>
@@ -12,15 +12,17 @@
                 <LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
             {% endfor %}
         </UL>
-    {% elif states %}
-        <H1>States</H1>
-        <UL>
-            {% for state in states.values()|sort(attribute='name') %}
-                <LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
-            {% endfor %}
-        </UL>
     {% else %}
-        <H1>Not found!</H1>
+        {% if states %}
+	    <H1>States</H1>
+            <UL>
+                {% for state in states.values()|sort(attribute='name') %}
+                    <LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
+                {% endfor %}
+            </UL>
+        {% else %}
+            <H1>Not found!</H1>
+        {% endif %}
     {% endif %}
 </BODY>
 </HTML>

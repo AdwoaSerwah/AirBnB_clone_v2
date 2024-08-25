@@ -4,7 +4,6 @@
 from flask import Flask, render_template
 from models import storage
 from models.state import State
-from os import getenv
 
 app = Flask(__name__)
 
@@ -22,10 +21,7 @@ def states(id=None):
     states = storage.all(State)
     if id:
         state = states.get('State.' + id)
-        if state:
-            return render_template('9-states.html', state=state)
-        else:
-            return render_template('9-states.html')
+        return render_template('9-states.html', state=state)
     else:
         return render_template('9-states.html', states=states)
 
